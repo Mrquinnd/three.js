@@ -1,0 +1,83 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model</title>
+</head>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+    }
+</style>
+
+<body>
+    <script src="three.js"></script>
+
+    <script>
+        //import * as THREE from '.three.js-master/build/three.module.js';
+       //import {GLTFLoader} from '.three.js-master/examples/jsm/loaders/GLTFLoader.js';
+        //import {OrbitControls} from '.three.js-master/examples/jsm/controls/OrbitControls.js';
+        
+        //const loader = new GLTFLoader();
+        //loader.load('scene.gltf')
+        // You start by creating a scene
+        var scene = new THREE.Scene();
+        // Then you create a camera
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+       // Then you create a renderer
+        var renderer = new THREE.WebGLRenderer();
+        // Set the size of the renderer
+        renderer.setSize( window.innerWidth, window.innerHeight);
+        // Add the renderer to the body of the document
+        document.body.appendChild(renderer.domElement);
+
+        // Create a geometry
+        var geometry = new THREE.BoxGeometry();
+        // Create a material
+        var material = new THREE.MeshBasicMaterial( { color: 0x4444FF});
+        // Create a mesh
+        var cube = new THREE.Mesh( geometry, material );
+        // Add the mesh to the scene
+        var light = new THREE.PointLight( 0xffdfbb,0x0D00, 1 );
+        // Add the light to the scene
+        scene.add( cube );
+        // Set the position of the camera
+        scene.add( light );
+
+        /*We were inside the cube*/
+        camera.position.z = 5;
+
+        // Create a render function
+        var mx = 0;
+        var my = 0;
+        // Create a render function
+        function saveMouse(event){
+            mx = event.clientX;
+            my = event.clientY;
+        }
+        
+        document.onmousemove = saveMouse;
+
+        function animate(){
+
+            requestAnimationFrame(animate);
+
+            cube.rotation.x = my/500;
+            cube.rotation.y = mx/500;
+
+            renderer.render(scene, camera);
+        }
+        // Call the render function
+        animate();
+    </script>
+
+    <!--To make loader work-->
+    <script type='module' src="GLTFLoader.js"></script>
+    <script type="module"></script>
+    
+</body>
+</html>
